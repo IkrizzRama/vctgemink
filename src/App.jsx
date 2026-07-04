@@ -487,7 +487,7 @@ function App() {
         
         <div className="bg-white p-6 sm:p-8 lg:p-12 rounded-[2.5rem] border border-black/5 shadow-[0_20px_50px_rgba(0,0,0,0.15)] max-w-2xl w-full text-center z-10 relative">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-red-500 mb-4 font-serif uppercase leading-none drop-shadow-sm">
-            GAFFER<br/>DRAFT
+            VCT<br/>GEMINK
           </h1>
           <p className="text-neutral-600 text-base sm:text-lg mb-10 tracking-wide font-medium max-w-md mx-auto leading-relaxed">
             Mulai petualangan manajerialmu. Bentuk formasi impian dan kuasai sirkuit liga VCT global.
