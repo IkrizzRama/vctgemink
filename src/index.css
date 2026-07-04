@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #1a141a; /* Biar langsung dapet vibe dark mode vct */
+  color: #ffffff;
+  font-family: sans-serif;
+}
