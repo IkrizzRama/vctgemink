@@ -839,23 +839,34 @@ function App() {
                 <div className="w-full bg-gradient-to-b from-neutral-50 to-neutral-100 p-8 sm:p-10 border-b border-neutral-200 flex flex-col items-center justify-center relative overflow-hidden">
                   
                   {/* Angka Skor Utama Ditonjolkan Besar Di Sini */}
-                  <div className="w-full flex items-center justify-between bg-white px-6 py-4 rounded-xl border shadow-sm mb-4">
-                    <div className="text-left">
-                      <div className="text-sm font-black text-vct-red uppercase tracking-wide">{teamName}</div>
-                      <div className="text-4xl font-black text-vct-red">{myScore}</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xs uppercase text-neutral-500 font-bold">ROUND</div>
-                      <div className="text-sm font-mono text-neutral-400 uppercase">VS</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-black text-neutral-800 uppercase tracking-wide">{enemyTeam.name}</div>
-                      <div className="text-4xl font-black text-neutral-800">{enemyScore}</div>
+                  <div className="w-full flex flex-col items-center justify-center bg-white px-6 py-6 rounded-xl border shadow-sm mb-4">
+                    <div className="w-full max-w-4xl flex flex-col items-center">
+                      <div className="w-full flex items-center justify-center gap-8">
+                        <div className="text-center hidden sm:block w-1/4">
+                          <div className="text-sm font-black text-vct-red uppercase tracking-wide truncate">{teamName}</div>
+                        </div>
+
+                        <div className="flex items-center gap-6 justify-center">
+                          <div className="text-[5.5rem] sm:text-[7.5rem] md:text-[9.5rem] lg:text-[11rem] font-black text-vct-red leading-none tabular-nums select-none">{myScore}</div>
+                          <div className="text-[4.5rem] sm:text-[5.5rem] md:text-[6.5rem] font-black text-neutral-400 leading-none select-none">-</div>
+                          <div className="text-[5.5rem] sm:text-[7.5rem] md:text-[9.5rem] lg:text-[11rem] font-black text-neutral-800 leading-none tabular-nums select-none">{enemyScore}</div>
+                        </div>
+
+                        <div className="text-center hidden sm:block w-1/4">
+                          <div className="text-sm font-black text-neutral-800 uppercase tracking-wide truncate">{enemyTeam.name}</div>
+                        </div>
+                      </div>
+
+                      {/* Mobile team labels under scores */}
+                      <div className="w-full flex items-center justify-between mt-4 sm:hidden px-8">
+                        <div className="text-sm font-black text-vct-red uppercase tracking-wide truncate">{teamName}</div>
+                        <div className="text-sm font-black text-neutral-800 uppercase tracking-wide truncate">{enemyTeam.name}</div>
+                      </div>
                     </div>
                   </div>
                   {isOvertime && (
                     <div className="w-full flex justify-center mb-4">
-                      <span className="text-xs font-black text-vct-red tracking-[0.4em] uppercase bg-red-100 px-4 py-1 rounded-full shadow-sm animate-pulse">🚨 OVERTIME</span>
+                      <span className="text-sm font-black text-vct-red tracking-[0.25em] uppercase bg-red-100 px-4 py-1 rounded-full shadow-sm animate-pulse">🚨 OVERTIME</span>
                     </div>
                   )}
 
