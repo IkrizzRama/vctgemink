@@ -95,6 +95,19 @@ function App() {
     const total = squadArray.reduce((acc, curr) => acc + curr.ovr, 0);
     return Math.round(total / squadArray.length);
   };
+
+  const pickBiasedTeam = (avoidTeamName) => {
+    const teamNames = Object.keys(vctTeamsData);
+    const weighted = [];
+    teamNames.forEach((name) => {
+      const weight = name === avoidTeamName ? 1 : 4;
+      for (let i = 0; i < weight; i += 1) {
+        weighted.push(name);
+      }
+    });
+    return weighted[Math.floor(Math.random() * weighted.length)];
+  };
+
   const myOVR = calculateOVR(mySquad);
 
   const loadHallOfFame = async () => {
@@ -181,10 +194,8 @@ function App() {
     setIsSyncing(false);
   };
 
-  const executeRoll = () => {
-    const teamNames = Object.keys(vctTeamsData);
-    const randomIndex = Math.floor(Math.random() * teamNames.length);
-    const selectedTeamName = teamNames[randomIndex];
+  const executeRoll = (avoidTeamName = null) => {
+    const selectedTeamName = pickBiasedTeam(avoidTeamName);
     setCurrentDrawnTeam({ name: selectedTeamName, ...vctTeamsData[selectedTeamName] });
     setIsRolling(false);
   };
@@ -198,15 +209,18 @@ function App() {
       counter++;
       if (counter > 6) {
         clearInterval(interval);
-        executeRoll();
+        executeRoll(currentDrawnTeam?.name || null);
       }
     }, 100);
   };
 
   const selectMember = (member) => {
     if (totalSquadCount >= 6) return;
+    if (mySquad.some((item) => item.id === member.id)) return;
+
     const updatedSquad = [...mySquad, { ...member, originalTeam: currentDrawnTeam.name }];
     setMySquad(updatedSquad);
+    const lastTeam = currentDrawnTeam?.name || null;
     setCurrentDrawnTeam(null);
 
     if (updatedSquad.length < 6) {
@@ -219,10 +233,7 @@ function App() {
         counter++;
         if (counter > 7) {
           clearInterval(interval);
-          const randomIndex = Math.floor(Math.random() * teamNames.length);
-          const selectedTeamName = teamNames[randomIndex];
-          setCurrentDrawnTeam({ name: selectedTeamName, ...vctTeamsData[selectedTeamName] });
-          setIsRolling(false);
+          executeRoll(lastTeam);
         }
       }, 90);
     }
@@ -758,7 +769,8 @@ function App() {
                   
                   <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 xl:gap-4 w-full">
                     {currentDrawnTeam.roster.map((player) => {
-                      const disableCard = (player.role === "Coach" && isCoachFilled) || (isLastPick && !isCoachFilled && player.role !== "Coach");
+                      const alreadySelected = mySquad.some((item) => item.id === player.id);
+                      const disableCard = alreadySelected || (player.role === "Coach" && isCoachFilled) || (isLastPick && !isCoachFilled && player.role !== "Coach");
                       return (
                         <button
                           key={player.id}
@@ -779,6 +791,9 @@ function App() {
                           <div className="flex flex-col z-10 pl-2 pr-2 min-w-0">
                             <span className="font-black text-[20px] sm:text-[22px] text-neutral-800 uppercase tracking-wide leading-tight mb-2 break-words">{player.name}</span>
                             <span className="font-bold text-[12px] sm:text-[13px] uppercase tracking-widest text-neutral-500 group-hover:text-neutral-700 transition-colors">{currentDrawnTeam.name}</span>
+                            {alreadySelected && (
+                              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-red-500 mt-1">Already picked</span>
+                            )}
                           </div>
                           
                           <div className="flex flex-col items-end z-10 text-right min-w-[70px]">
