@@ -571,7 +571,7 @@ function App() {
             </div>
             <button onClick={() => setCurrentScreen('menu')} className="bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-neutral-700 font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow transition-colors self-start sm:self-auto">← Kembali</button>
           </div>
-          <div className="overflow-hidden border border-neutral-200 rounded-2xl bg-neutral-50">
+          <div className="overflow-hidden border border-neutral-200 rounded-2xl bg-neutral-50 p-4">
             {hallOfFameData.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
                 <div className="text-5xl mb-4">🏟️</div>
@@ -581,28 +581,46 @@ function App() {
                 </p>
               </div>
             ) : (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-neutral-100 border-b border-neutral-200 text-neutral-600 text-[11px] font-bold tracking-widest uppercase">
-                    <th className="py-4 px-6 text-center w-20">RANK</th>
-                    <th className="py-4 px-6">TEAM NAME</th>
-                    <th className="py-4 px-6 text-center w-28">TEAM OVR</th>
-                    <th className="py-4 px-6">REGION</th>
-                    <th className="py-4 px-6">ACHIEVEMENT</th>
-                  </tr>
-                </thead>
-                <tbody className="text-base divide-y divide-neutral-200 font-medium">
+              <>
+                {/* Mobile / Small: cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden">
                   {hallOfFameData.map((data) => (
-                    <tr key={data.rank} className="hover:bg-neutral-100 transition-colors duration-200">
-                      <td className="py-4 px-6 text-center font-mono font-black text-red-500 text-lg">#{data.rank}</td>
-                      <td className="py-4 px-6 font-black text-neutral-800 tracking-wide uppercase text-base">{data.team}</td>
-                      <td className="py-4 px-6 text-center font-mono font-black text-red-500 text-lg">{data.ovr}</td>
-                      <td className="py-4 px-6"><span className="bg-white border border-neutral-300 px-3 py-1 rounded-md text-xs font-mono font-bold text-neutral-600">{data.region}</span></td>
-                      <td className="py-4 px-6 text-neutral-600 font-bold text-xs uppercase tracking-wider">{data.title}</td>
-                    </tr>
+                    <div key={data.rank} className="bg-white p-4 rounded-xl border border-neutral-200 shadow-sm text-center">
+                      <div className="text-3xl mb-2">{data.rank === 1 ? '🥇' : `#${data.rank}`}</div>
+                      <div className="font-black text-lg uppercase tracking-wide mb-1">{data.team}</div>
+                      <div className="text-sm font-mono text-neutral-500 mb-2">OVR {data.ovr}</div>
+                      <div className="text-sm font-bold text-neutral-700">{data.title}</div>
+                      <div className="text-xs text-neutral-500 mt-2">{data.titles} Titles</div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
+                </div>
+
+                {/* Desktop: table */}
+                <div className="hidden lg:block">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-neutral-100 border-b border-neutral-200 text-neutral-600 text-[11px] font-bold tracking-widest uppercase">
+                        <th className="py-4 px-6 text-center w-20">RANK</th>
+                        <th className="py-4 px-6">TEAM NAME</th>
+                        <th className="py-4 px-6 text-center w-28">TEAM OVR</th>
+                        <th className="py-4 px-6">REGION</th>
+                        <th className="py-4 px-6">ACHIEVEMENT</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-base divide-y divide-neutral-200 font-medium">
+                      {hallOfFameData.map((data) => (
+                        <tr key={data.rank} className="hover:bg-neutral-100 transition-colors duration-200">
+                          <td className="py-4 px-6 text-center font-mono font-black text-vct-red text-lg">#{data.rank}</td>
+                          <td className="py-4 px-6 font-black text-neutral-800 tracking-wide uppercase text-base">{data.team}</td>
+                          <td className="py-4 px-6 text-center font-mono font-black text-vct-red text-lg">{data.ovr}</td>
+                          <td className="py-4 px-6"><span className="bg-white border border-neutral-300 px-3 py-1 rounded-md text-xs font-mono font-bold text-neutral-600">{data.region}</span></td>
+                          <td className="py-4 px-6 text-neutral-600 font-bold text-xs uppercase tracking-wider">{data.title}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -638,9 +656,11 @@ function App() {
               <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-black text-neutral-800 tracking-wide uppercase font-serif">{teamName}</h1>
             </div>
           </div>
-          <div className="bg-neutral-50 px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl border border-neutral-200 text-center flex items-center gap-3 sm:gap-5 shadow-inner">
-            <span className="text-[10px] sm:text-xs text-neutral-500 font-bold tracking-widest uppercase">TEAM OVR</span>
-            <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-red-500 font-mono">{myOVR}</span>
+          <div className="flex items-center gap-3">
+            <div className="bg-neutral-50 px-3 py-2 rounded-xl border border-neutral-200 text-center shadow-inner">
+              <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest block">TEAM OVR</span>
+              <span className="text-lg font-black text-vct-red font-mono">{myOVR}</span>
+            </div>
           </div>
         </header>
 
@@ -650,7 +670,7 @@ function App() {
             
             {/* KIRI: Tactical Board */}
             <div className="lg:col-span-4 flex flex-col w-full">
-              <div className="relative w-full bg-white rounded-none p-6 shadow-[0_20px_50px_rgba(0,0,0,0.10)] border border-black/5 h-[700px] flex flex-col items-center justify-start overflow-hidden">
+              <div className="relative w-full bg-white rounded-none p-6 shadow-[0_20px_50px_rgba(0,0,0,0.10)] border border-black/5 min-h-[500px] lg:min-h-[700px] flex flex-col items-center justify-start overflow-hidden">
                 <div className="absolute inset-0 border-[3px] border-neutral-200/50 rounded-none m-4 pointer-events-none flex flex-col justify-between">
                   <div className="w-full h-1/2 border-b-[3px] border-neutral-200/50 relative">
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-32 border-[3px] border-neutral-200/50 rounded-full translate-y-1/2"></div>
@@ -660,7 +680,7 @@ function App() {
                 {/* COACH CARD CONTAINER */}
                 <div className="flex justify-center w-full z-10 mt-2 mb-4">
                   {squadCoach ? (
-                    <div className="w-[150px] h-[205px] bg-gradient-to-b from-[#40125c] to-[#1a082e] rounded-none border border-purple-400/50 relative flex flex-col justify-between p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)] transform hover:scale-105 transition-transform duration-300">
+                    <div className="w-full max-w-[150px] aspect-[3/4] bg-gradient-to-b from-[#40125c] to-[#1a082e] rounded-none border border-purple-400/50 relative flex flex-col justify-between p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)] transform hover:scale-105 transition-transform duration-300">
                       <div className="text-white font-black text-[32px] leading-none text-center w-full mb-1 relative z-10">🧠</div>
                       <div className="flex-grow flex items-center justify-center text-center relative z-10">
                         <span className="text-white font-black text-[24px] uppercase tracking-wide leading-tight break-all">{squadCoach.name}</span>
@@ -668,7 +688,7 @@ function App() {
                       <div className="text-center text-purple-200 font-black text-[12px] uppercase tracking-[0.2em] relative z-10">COACH</div>
                     </div>
                   ) : (
-                    <div className={`w-[110px] h-[110px] rounded-none border-2 border-dashed flex flex-col items-center justify-center text-center transition-all duration-300 ${isLastPick ? 'border-red-500 bg-red-50 text-red-500 animate-pulse' : 'border-neutral-300 bg-neutral-50 text-neutral-400'}`}>
+                    <div className={`w-full max-w-[110px] aspect-square rounded-none border-2 border-dashed flex flex-col items-center justify-center text-center transition-all duration-300 ${isLastPick ? 'border-red-500 bg-red-50 text-red-500 animate-pulse' : 'border-neutral-300 bg-neutral-50 text-neutral-400'}`}>
                       <span className="text-[26px] font-black">🧠</span><span className="text-[12px] font-bold tracking-widest uppercase mt-1">COACH</span>
                     </div>
                   )}
@@ -676,9 +696,9 @@ function App() {
 
                 {/* ALL 5 PLAYER CARDS */}
                 <div className="flex justify-between items-end w-full z-10 px-1 mt-auto mb-4 gap-2.5">
-                  {[0, 1, 2, 3, 4].map((idx) => (
+                      {[0, 1, 2, 3, 4].map((idx) => (
                     squadPlayers[idx] ? (
-                      <div key={squadPlayers[idx].id} className="w-[118px] h-[152px] bg-gradient-to-b from-[#9e1620] to-[#540b12] rounded-none border border-red-500/40 relative flex flex-col justify-between p-2.5 shadow-[0_10px_24px_rgba(0,0,0,0.16)] transform hover:-translate-y-2 hover:shadow-[0_14px_30px_rgba(239,68,68,0.18)] transition-transform duration-300">
+                      <div key={squadPlayers[idx].id} className="w-full max-w-[130px] aspect-[3/4] bg-gradient-to-b from-[#9e1620] to-[#540b12] rounded-none border border-red-500/40 relative flex flex-col justify-between p-2.5 shadow-[0_10px_24px_rgba(0,0,0,0.16)] transform hover:-translate-y-2 hover:shadow-red-md transition-transform duration-300">
                         <div className="text-white font-black text-[28px] leading-none relative z-10">{squadPlayers[idx].ovr}</div>
                         <div className="flex-grow flex items-center justify-center text-center relative z-10">
                           <span className="text-white font-black text-[18px] uppercase tracking-wide leading-tight break-all">{squadPlayers[idx].name}</span>
@@ -686,7 +706,7 @@ function App() {
                         <div className="text-center text-red-100 font-bold text-[11px] uppercase tracking-widest relative z-10">{squadPlayers[idx].role}</div>
                       </div>
                     ) : (
-                      <div key={idx} className="w-[108px] h-[120px] rounded-none border-2 border-dashed border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center text-neutral-400">
+                      <div key={idx} className="w-full max-w-[120px] aspect-[3/4] rounded-none border-2 border-dashed border-neutral-300 bg-neutral-50 flex flex-col items-center justify-center text-neutral-400">
                         <span className="text-[11px] font-bold uppercase tracking-widest">SLOT {idx + 1}</span>
                       </div>
                     )
@@ -819,25 +839,25 @@ function App() {
                 <div className="w-full bg-gradient-to-b from-neutral-50 to-neutral-100 p-8 sm:p-10 border-b border-neutral-200 flex flex-col items-center justify-center relative overflow-hidden">
                   
                   {/* Angka Skor Utama Ditonjolkan Besar Di Sini */}
-                  <div className="flex flex-col items-center justify-center z-10 mb-8">
-                    <div className="flex items-center gap-10 bg-white px-16 py-8 rounded-[3rem] border-2 border-red-500/10 shadow-[0_25px_60px_rgba(239,68,68,0.12)]">
-                      {/* Skor Skuad Kita */}
-                      <span className="text-[5.5rem] md:text-[8.5rem] lg:text-[10rem] font-black text-red-500 font-mono tracking-tighter tabular-nums leading-none drop-shadow-sm select-none">
-                        {myScore}
-                      </span>
-                      {/* Strip Pembatas Tengah */}
-                      <span className="text-neutral-300 font-black text-4xl md:text-5xl self-center px-3 select-none">-</span>
-                      {/* Skor Skuad Musuh */}
-                      <span className="text-[5.5rem] md:text-[8.5rem] lg:text-[10rem] font-black text-neutral-800 font-mono tracking-tighter tabular-nums leading-none drop-shadow-sm select-none">
-                        {enemyScore}
-                      </span>
+                  <div className="w-full flex items-center justify-between bg-white px-6 py-4 rounded-xl border shadow-sm mb-4">
+                    <div className="text-left">
+                      <div className="text-sm font-black text-vct-red uppercase tracking-wide">{teamName}</div>
+                      <div className="text-4xl font-black text-vct-red">{myScore}</div>
                     </div>
-                    {isOvertime && (
-                      <span className="text-xs font-black text-red-600 tracking-[0.4em] mt-5 uppercase bg-red-100 px-5 py-2 rounded-full shadow-sm animate-pulse">
-                        🚨 OVERTIME DETECTED 🚨
-                      </span>
-                    )}
+                    <div className="text-center">
+                      <div className="text-xs uppercase text-neutral-500 font-bold">ROUND</div>
+                      <div className="text-sm font-mono text-neutral-400 uppercase">VS</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-black text-neutral-800 uppercase tracking-wide">{enemyTeam.name}</div>
+                      <div className="text-4xl font-black text-neutral-800">{enemyScore}</div>
+                    </div>
                   </div>
+                  {isOvertime && (
+                    <div className="w-full flex justify-center mb-4">
+                      <span className="text-xs font-black text-vct-red tracking-[0.4em] uppercase bg-red-100 px-4 py-1 rounded-full shadow-sm animate-pulse">🚨 OVERTIME</span>
+                    </div>
+                  )}
 
                   {/* Informasi Nama Tim Dipindah ke Sisi Bawah Skor Secara Simetris */}
                   <div className="w-full max-w-5xl flex justify-between items-center px-4 sm:px-8 mt-2 border-t border-neutral-200/60 pt-6">
@@ -894,7 +914,12 @@ function App() {
                     <h4 className="text-xs text-neutral-500 font-bold uppercase tracking-[0.2em] border-b border-neutral-200 pb-3 mb-5">MATCH LOGS</h4>
                     <div className="h-56 overflow-y-auto pr-3 space-y-3 text-sm font-medium text-neutral-700 flex flex-col custom-scrollbar">
                       {matchLogs.map((log, i) => (
-                        <div key={i} className="bg-neutral-50 p-3 rounded-none border border-neutral-200 border-l-4 border-l-red-500">{log}</div>
+                        <div key={i} className="bg-neutral-50 p-3 rounded-lg border border-neutral-200">
+                          <div className="flex items-start gap-3">
+                            <span className="text-red-500 mt-1">●</span>
+                            <div className="text-sm text-neutral-700">{log}</div>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>

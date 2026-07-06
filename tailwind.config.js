@@ -7,8 +7,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        valodark: '#11141a', // Warna gelap khas UI Valorant
-        valored: '#ff4655',  // Warna merah ikonik Valorant
+        // Simplified, consistent palette per design notes
+        'vct-black-900': '#090909',
+        'vct-black-800': '#181818',
+        'vct-red': '#E11D48',
+        'vct-gray-100': '#F5F5F5',
+        'vct-white': '#FFFFFF',
+        'vct-gold': '#D4AF37',
+      },
+      spacing: {
+        // Explicit consistent spacing tokens (small set)
+        4: '1rem',
+        8: '2rem',
+        12: '3rem',
+        16: '4rem',
+        24: '6rem',
+        32: '8rem',
+      },
+      boxShadow: {
+        'red-md': '0 12px 30px rgba(225,29,72,0.12)',
       }
     },
   },
