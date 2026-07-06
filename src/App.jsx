@@ -235,7 +235,7 @@ function App() {
   const initTournamentBracket = () => {
     const allTeamKeys = Object.keys(vctTeamsData);
     const shuffledKeys = allTeamKeys.sort(() => 0.5 - Math.random());
-    const selectedEnemies = shuffledKeys.slice(0, 15).map(key => ({
+    const selectedEnemies = shuffledKeys.slice(0, 31).map(key => ({
       id: key,
       name: key,
       ovr: calculateOVR(vctTeamsData[key].roster),
@@ -251,15 +251,15 @@ function App() {
       isUser: true
     };
 
-    const top16 = [userTeamData, ...selectedEnemies];
-    const bracketTeams = top16.sort(() => 0.5 - Math.random());
+    const top32 = [userTeamData, ...selectedEnemies];
+    const bracketTeams = top32.sort(() => 0.5 - Math.random());
 
     const matchups = [];
-    for(let i = 0; i < 8; i++) {
+    for(let i = 0; i < 16; i++) {
       matchups.push({ t1: bracketTeams[i*2], t2: bracketTeams[i*2+1] });
     }
 
-    setTournament({ stage: 'RO16', matchups, champion: null });
+    setTournament({ stage: 'RO32', matchups, champion: null });
     setMatchStatus('bracket');
   };
 
@@ -424,7 +424,8 @@ function App() {
     }
 
     let nextStage = '';
-    if (tournament.stage === 'RO16') nextStage = 'QF';
+    if (tournament.stage === 'RO32') nextStage = 'RO16';
+    else if (tournament.stage === 'RO16') nextStage = 'QF';
     else if (tournament.stage === 'QF') nextStage = 'SF';
     else if (tournament.stage === 'SF') nextStage = 'FINAL';
 
@@ -461,6 +462,7 @@ function App() {
   }, []);
 
   const getStageDisplayName = (stage) => {
+    if(stage === 'RO32') return 'BABAK 32 BESAR';
     if(stage === 'RO16') return 'BABAK 16 BESAR';
     if(stage === 'QF') return 'QUARTER-FINAL (8 BESAR)';
     if(stage === 'SF') return 'SEMI-FINAL (4 BESAR)';
@@ -534,7 +536,7 @@ function App() {
             >
               <div className="text-3xl sm:text-4xl mb-4 relative z-10">🎮</div>
               <h3 className="text-lg sm:text-xl font-black text-neutral-900 uppercase tracking-wide group-hover:text-red-500 transition-colors relative z-10">VCT DRAFT MODE</h3>
-              <p className="text-sm text-neutral-500 mt-2 leading-relaxed relative z-10">Mulai mengacak pack roster pemain, menyusun formasi, lalu terjun ke Bracket Turnamen 16 Besar.</p>
+              <p className="text-sm text-neutral-500 mt-2 leading-relaxed relative z-10">Mulai mengacak pack roster pemain, menyusun formasi, lalu terjun ke Bracket Turnamen 32 Besar.</p>
             </button>
             <button 
               onClick={() => setCurrentScreen('hall_of_fame')}
@@ -724,7 +726,7 @@ function App() {
                   <h2 className="text-5xl font-black text-red-500 tracking-widest mb-6 font-serif uppercase">SKUAD LENGKAP</h2>
                   <p className="text-base text-neutral-600 mb-10 tracking-wide px-10 leading-relaxed">
                     Formasi sempurna telah tercipta dengan rata-rata <span className="text-red-500 font-black text-lg bg-red-50 px-2 py-0.5 rounded">OVR {myOVR}</span>.<br/><br/>
-                    Periksa kembali racikan tim andalanmu di panel kiri. Jika sudah yakin, tekan tombol di bawah ini untuk mendaftarkan skuadmu ke <span className="text-neutral-800 font-bold">Bracket Champions Tournament 16 Besar</span>.
+                    Periksa kembali racikan tim andalanmu di panel kiri. Jika sudah yakin, tekan tombol di bawah ini untuk mendaftarkan skuadmu ke <span className="text-neutral-800 font-bold">Bracket Champions Tournament 32 Besar</span>.
                   </p>
                   <button onClick={initTournamentBracket} className="bg-red-500 hover:bg-red-600 text-white font-black px-12 py-5 rounded-2xl text-xl tracking-widest uppercase shadow-lg transition-all transform hover:-translate-y-1">
                     🏆 Daftarkan ke Tourney
